@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+//
+
+import { useState } from "react";
+
+const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [msg, setMsg] = useState("");
+  const [username, setUsername] = useState("testuser");
+  const [usdAmount, setUsdAmount] = useState(10);
+  const [currency, setCurrency] = useState("BTC");
+
+  // 🧠 This is where you paste the fetch call
+  const handleBet = async () => {
+    const response = await fetch(`${API_BASE}/api/bet`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, usdAmount, currency }),
+    });
+
+    const data = await response.json();
+    setMsg(data.msg || "Bet placed");
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <h1>Crypto Crash</h1>
+      <input
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        placeholder="Username"
+      />
+      <input
+        type="number"
+        value={usdAmount}
+        onChange={(e) => setUsdAmount(Number(e.target.value))}
+        placeholder="USD Amount"
+      />
+      <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
+        <option value="BTC">BTC</option>
+        <option value="ETH">ETH</option>
+      </select>
+      <button onClick={handleBet}>Place Bet</button>
+      <p>{msg}</p>
+    </div>
+  );
 }
 
-export default App
+export default App;

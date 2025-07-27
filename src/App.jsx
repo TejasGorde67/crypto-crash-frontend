@@ -1,5 +1,3 @@
-//
-
 import { useState } from "react";
 
 const API_BASE = import.meta.env.VITE_BACKEND_URL;
@@ -10,7 +8,6 @@ function App() {
   const [usdAmount, setUsdAmount] = useState(10);
   const [currency, setCurrency] = useState("BTC");
 
-  // 🧠 This is where you paste the fetch call
   const handleBet = async () => {
     const response = await fetch(`${API_BASE}/api/bet`, {
       method: "POST",

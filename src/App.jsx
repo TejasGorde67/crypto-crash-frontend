@@ -19,6 +19,7 @@ function App() {
       });
 
       const data = await response.json();
+      console.log("Backend response:", data); // 👈 Add this line
 
       if (response.ok) {
         setMsg("Bet placed");
